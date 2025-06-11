@@ -10,10 +10,10 @@
     <div class="weather-container">
         <div class="header">
             <div class="date-location">
-                <div class="day">Tuesday</div>
-                <div class="date">15 Jan 2019</div>
+                <div class="day">Wednesday</div>
+                <div class="date">11 June 2025</div>
             </div>
-            <div class="location">Paris, FR</div>
+            <div class="location">Srinagar, In</div>
         </div>
         
         <div class="controls">
@@ -21,50 +21,67 @@
             <input type="date" class="date-selector">
         </div>
         
-        <div class="current-weather">
-            <div class="condition">Sunny</div>
-            <div class="weather-icon">
-                <i class="fas fa-sun"></i>
+        <div class="main-content">
+            <div class="left-column">
+                <div class="current-weather">
+                    <div class="condition">Sunny</div>
+                    <div class="weather-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="temperature">29°C</div>
+                    <div class="weather-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Wind</span>
+                            <span class="stat-value">0 km/h</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Humidity</span>
+                            <span class="stat-value">34%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Precipitation</span>
+                            <span class="stat-value">0%</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="temperature">29°C</div>
+            
+            <div class="right-column">
+                <h3>5-Day Forecast</h3>
+                <div class="forecast">
+                    <div class="forecast-day">
+                        <div class="forecast-date">Tue, 12 Jun</div>
+                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
+                        <div class="forecast-temp">29°C</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="forecast-date">Wed, 13 Jun</div>
+                        <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
+                        <div class="forecast-temp">21°C</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="forecast-date">Thu, 14 Jun</div>
+                        <div class="forecast-icon"><i class="fas fa-cloud"></i></div>
+                        <div class="forecast-temp">8°C</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="forecast-date">Fri, 15 Jun</div>
+                        <div class="forecast-icon"><i class="fas fa-cloud-rain"></i></div>
+                        <div class="forecast-temp">19°C</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="forecast-date">Sat, 16 Jun</div>
+                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
+                        <div class="forecast-temp">22°C</div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="change-location">Change location</button>
+                    <button class="refresh-weather"><i class="fas fa-sync-alt"></i> Refresh</button>
+                </div>
+            </div>
         </div>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-title">PRECIPITATION</div>
-                <div class="stat-value">0%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">HUMIDITY</div>
-                <div class="stat-value">34%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">WIND</div>
-                <div class="stat-value">0 km/h</div>
-            </div>
-        </div>
-        
-        <div class="forecast">
-            <div class="forecast-day">
-                <div class="forecast-day-name">Tue</div>
-                <div class="forecast-temp">29°C</div>
-            </div>
-            <div class="forecast-day">
-                <div class="forecast-day-name">Wed</div>
-                <div class="forecast-temp">21°C</div>
-            </div>
-            <div class="forecast-day">
-                <div class="forecast-day-name">Thu</div>
-                <div class="forecast-temp">8°C</div>
-            </div>
-            <div class="forecast-day">
-                <div class="forecast-day-name">Fri</div>
-                <div class="forecast-temp">19°C</div>
-            </div>
-        </div>
-        
-        <button class="change-location">Change location</button>
     </div>
-    <script src="weather.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
