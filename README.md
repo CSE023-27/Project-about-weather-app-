@@ -1,12 +1,11 @@
-- 👋 Hi, we are  @CSE023-27
+- 👋 Hi, we are  @CSE023-27 
 - 👀 we are interested in html css javascript and nodejs expressjs and more
-- 🌱 we are currently learning nodejs and API
+- 🌱 we are currently learning iwt
 - Collaboration
 - Mohit Kumawat 2023BCSE017
 - Dikshu 2023BCSE015
 - Sanchit 2023BCSE037
 - Pulak jindal 2023BCSE085
-- ⚡ Fun fact: nothing
   
 
 <!---
