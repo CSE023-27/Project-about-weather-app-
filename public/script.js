@@ -1,239 +1,133 @@
-// Weather API configuration
-const API_KEY = '14a425f3384254d46af6e475ed98648d'; // Replace with your actual API key
-const BASE_URL = 'https://api.openweathermap.org/data/2.5';
+const cityInput = document.querySelector('.city-input');
+const searchBtn = document.querySelector('.search-btn');
+const notFoundSection = document.querySelector('.not-found');
+const searchCitySection = document.querySelector('.search-city');
+const weatherInfoSection = document.querySelector('.weather-info')
+const countryText = document.querySelector('.country-txt');
+const tempText = document.querySelector('.temp-txt');
+const conditionText = document.querySelector('.condition-txt');
+const humidityValueText = document.querySelector('.humidity-value-txt');
+const windValueText = document.querySelector('.wind-value-txt');
+const weatherSummaryImg = document.querySelector('.weather-summary-img');
 
-// Weather condition to icon mapping
-const weatherIcons = {
-    'Clear': 'fa-sun',
-    'Clouds': 'fa-cloud',
-    'Rain': 'fa-cloud-rain',
-    'Drizzle': 'fa-cloud-rain',
-    'Thunderstorm': 'fa-bolt',
-    'Snow': 'fa-snowflake',
-    'Mist': 'fa-smog',
-    'Smoke': 'fa-smog',
-    'Haze': 'fa-smog',
-    'Dust': 'fa-smog',
-    'Fog': 'fa-smog',
-    'Sand': 'fa-smog',
-    'Ash': 'fa-smog',
-    'Squall': 'fa-wind',
-    'Tornado': 'fa-tornado'
+const currentDateText = document.querySelector('.current-date-txt')
+const forecastsItemsContainer = document.querySelector('.forcast-items-containar')
+
+const API_KEY = '14a425f3384254d46af6e475ed98648d'; // Replace with your actual API key
+
+searchBtn.addEventListener('click',()=> {
+    if(cityInput.value != '') {
+        updateWeatherInfo(cityInput.value);
+        cityInput.value = '';
+        cityInput.blur();
+    }
+});
+
+cityInput.addEventListener('keydown', (event)=> {
+    if(event.key == 'Enter' && cityInput.value != '') {
+        updateWeatherInfo(cityInput.value);
+        cityInput.value = '';
+        cityInput.blur();
+    }  
+});
+async function getFetchData(endPoint, city) {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${API_KEY}&units=metric`;
+
+    const response = await fetch(apiUrl);
+
+    return response.json();
+}
+
+function getWeatherIcon(id) {
+    if(id <= 232) return 'thunderstorm.svg'; 
+    if(id <= 321) return 'drizzle.svg'; 
+    if(id <= 531) return 'rain.svg'; 
+    if(id <= 622) return 'snow.svg'; 
+    if(id <= 781) return 'atmosphere.svg'; 
+    if(id <= 800) return 'clear.svg';
+    else return 'clouds.svg'; 
+}
+
+function getCurrentDate() {
+    const currentDate = new Date();
+    const options = {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short'
+    }
+    return currentDate.toLocaleDateString('en-GB', options)
+}
+async function updateWeatherInfo(city) {
+    const weatherData = await getFetchData('weather', city);
+    if(weatherData.cod != 200) {
+        showDisplaySection(notFoundSection);
+        return;
+    }
+
+    const {
+        name: country,
+        main: {temp, humidity},
+        weather: [{ id, main}],
+        wind: {speed},
+
+    } = weatherData;
+
+    countryText.textContent = country;
+    tempText.textContent = Math.round(temp) + '°C';
+    conditionText.textContent = main;
+    humidityValueText.textContent = humidity + '%';
+    windValueText.textContent = speed +'M/s';
+
+    currentDateText.textContent = getCurrentDate();
+    weatherSummaryImg.src=`assets/weather/${getWeatherIcon(id)}`;
+
+    await updateForecastsInfo(city);
+    showDisplaySection(weatherInfoSection);
 };
 
-// Function to fetch current weather data
-async function getWeatherData(city) {
-    try {
-        const response = await fetch(`${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-        return null;
-    }
-}
+async function updateForecastsInfo(city) {
+    const forecastsData = await getFetchData('forecast', city);
 
-// Function to fetch 5-day forecast data
-async function getForecastData(city) {
-    try {
-        const response = await fetch(`${BASE_URL}/forecast?q=${city}&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching forecast data:', error);
-        return null;
-    }
-}
+    const timeTaken = '12:00:00';
+    const todayDate = new Date().toISOString().split('T')[0];
 
-// Function to fetch weather data for a specific date
-async function getWeatherDataForDate(city, date) {
-    try {
-        const response = await fetch(`${BASE_URL}/forecast?q=${city}&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
-        
-        // Convert the selected date to a timestamp
-        const targetDate = new Date(date);
-        targetDate.setHours(12, 0, 0, 0);
-        
-        // Get all forecasts and convert their timestamps
-        const forecasts = data.list.map(item => ({
-            ...item,
-            timestamp: new Date(item.dt * 1000)
-        }));
+    forecastsItemsContainer.innerHTML = '';
 
-        // Find the forecast closest to the target date
-        const closestForecast = forecasts.reduce((closest, current) => {
-            const currentDiff = Math.abs(current.timestamp - targetDate);
-            const closestDiff = Math.abs(closest.timestamp - targetDate);
-            return currentDiff < closestDiff ? current : closest;
-        });
-
-        // Check if the closest forecast is within 24 hours of the target date
-        const timeDiff = Math.abs(closestForecast.timestamp - targetDate);
-        const hoursDiff = timeDiff / (1000 * 60 * 60);
-
-        if (hoursDiff <= 24) {
-            return {
-                ...closestForecast,
-                name: data.city.name,
-                sys: { country: data.city.country }
-            };
-        } else {
-            throw new Error('No data available for the selected date');
+    forecastsData.list.forEach(forecastWeather => {
+        if(forecastWeather.dt_txt.includes(timeTaken) && 
+           !forecastWeather.dt_txt.includes(todayDate)) {
+            updateForecastsItems(forecastWeather);
         }
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-        return null;
-    }
+    })
 }
 
-// Function to update UI with weather data
-function updateWeatherUI(data) {
-    if (!data) return;
+function updateForecastsItems(weatherData) {
+    const {
+        dt_txt: date,
+        weather:[{ id }],
+        main: { temp}
+    } = weatherData
 
-    // Update location
-    document.querySelector('.location').textContent = `${data.name}, ${data.sys.country}`;
+    const dateTaken = new Date(date);
+    const dateOption = {
+        day:'2-digit',
+        month:'short'
+    }
+    const dateResult = dateTaken.toLocaleDateString('en-US', dateOption)
+    const forecastItem = `
+        <div class="forcast-item">
+            <h5 class="forcast-item-date regular-txt">${dateResult}</h5>
+            <img src="assets/weather/${getWeatherIcon(id)}" alt="" class="forcast-item-img">
+            <h5 class="forcast-item-temp">${Math.round(temp)} °C</h5>
+        </div>
+    `
 
-    // Update current weather
-    document.querySelector('.condition').textContent = data.weather[0].main;
-    document.querySelector('.temperature').textContent = `${Math.round(data.main.temp)}°C`;
-
-    // Update weather icon
-    const iconClass = weatherIcons[data.weather[0].main] || 'fa-sun';
-    document.querySelector('.weather-icon i').className = `fas ${iconClass}`;
-
-    // Update background based on weather condition
-    const weatherCondition = data.weather[0].main.toLowerCase();
-    document.body.className = ''; // Clear existing classes
-    document.body.classList.add(`weather-bg-${weatherCondition}`);
-
-    // Update stats
-    document.querySelector('.stat-item:nth-child(1) .stat-value').textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
-    document.querySelector('.stat-item:nth-child(2) .stat-value').textContent = `${data.main.humidity}%`;
-    document.querySelector('.stat-item:nth-child(3) .stat-value').textContent = `${data.rain ? data.rain['1h'] : 0}%`;
-
-    // Update date
-    const date = new Date(data.dt * 1000);
-    document.querySelector('.day').textContent = date.toLocaleDateString('en-US', { weekday: 'long' });
-    document.querySelector('.date').textContent = date.toLocaleDateString('en-US', { 
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-    });
+    forecastsItemsContainer.insertAdjacentHTML('beforeend', forecastItem)
 }
 
-// Function to update forecast UI
-function updateForecastUI(data) {
-    if (!data) return;
+function showDisplaySection(section) {
+    [weatherInfoSection, searchCitySection, notFoundSection]
+    .forEach(section => section.style.display = 'none');
 
-    const forecastDays = document.querySelectorAll('.forecast-day');
-    const dailyData = processForecastData(data);
-
-    dailyData.forEach((day, index) => {
-        if (index < forecastDays.length) {
-            const forecastDay = forecastDays[index];
-            forecastDay.querySelector('.forecast-date').textContent = day.date;
-            forecastDay.querySelector('.forecast-icon i').className = `fas ${weatherIcons[day.weather] || 'fa-sun'}`;
-            forecastDay.querySelector('.forecast-temp').textContent = `${Math.round(day.temp)}°C`;
-        }
-    });
+    section.style.display = 'flex';
 }
-
-// Function to process forecast data and get daily averages
-function processForecastData(data) {
-    const dailyData = {};
-    
-    data.list.forEach(item => {
-        const date = new Date(item.dt * 1000);
-        const dateStr = date.toLocaleDateString('en-US', { 
-            weekday: 'short',
-            day: 'numeric',
-            month: 'short'
-        });
-        
-        if (!dailyData[dateStr]) {
-            dailyData[dateStr] = {
-                date: dateStr,
-                temp: item.main.temp,
-                weather: item.weather[0].main,
-                count: 1
-            };
-        } else {
-            dailyData[dateStr].temp += item.main.temp;
-            dailyData[dateStr].count++;
-        }
-    });
-
-    return Object.values(dailyData).map(day => ({
-        ...day,
-        temp: day.temp / day.count
-    }));
-}
-
-// Function to update weather data
-async function updateWeatherData(city) {
-    try {
-        const dateSelector = document.querySelector('.date-selector');
-        const selectedDate = dateSelector.value || new Date().toISOString().split('T')[0];
-        
-        const weatherData = await getWeatherDataForDate(city, selectedDate);
-        if (weatherData) {
-            updateWeatherUI(weatherData);
-            return true;
-        } else {
-            throw new Error('No data available');
-        }
-    } catch (error) {
-        console.error('Error updating weather data:', error);
-        alert('Unable to fetch weather data. Please try again.');
-        return false;
-    }
-}
-
-// Event listeners
-document.querySelector('.location-selector').addEventListener('keypress', async (e) => {
-    if (e.key === 'Enter') {
-        const city = e.target.value;
-        if (city) {
-            await updateWeatherData(city);
-        }
-    }
-});
-
-// Fix the change location button
-document.querySelector('.change-location').addEventListener('click', async () => {
-    const locationInput = document.querySelector('.location-selector');
-    const city = locationInput.value;
-    if (city) {
-        await updateWeatherData(city);
-    } else {
-        locationInput.focus();
-    }
-});
-
-// Fix the refresh button
-document.querySelector('.refresh-weather').addEventListener('click', async () => {
-    const city = document.querySelector('.location').textContent.split(',')[0];
-    if (city) {
-        await updateWeatherData(city);
-    }
-});
-
-// Date selector event listener
-document.querySelector('.date-selector').addEventListener('change', async (e) => {
-    const selectedDate = e.target.value;
-    const city = document.querySelector('.location').textContent.split(',')[0];
-    
-    if (city) {
-        try {
-            const weatherData = await getWeatherDataForDate(city, selectedDate);
-            if (weatherData) {
-                updateWeatherUI(weatherData);
-            } else {
-                throw new Error('No data available');
-            }
-        } catch (error) {
-            alert('Weather data is not available for the selected date. Please try a date within the next 5 days.');
-        }
-    }
-});
