@@ -1,87 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <!-- &icon_names=search -->
+    <!-- &icon_names=location_on -->
 </head>
+
 <body>
-    <div class="weather-container">
-        <div class="header">
-            <div class="date-location">
-                <div class="day">Wednesday</div>
-                <div class="date">11 June 2025</div>
+    <main class="main-containar">
+
+        <header class="input-containar">
+            <input type="text" placeholder="Search City" class="city-input">
+            <button class="search-btn">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+            </button>
+        </header>
+        <section class="weather-info" style="display: none;">
+            <div class="location-date-containar">
+                <div class="location">
+                    <span class="material-symbols-outlined">
+                        location_on
+                    </span>
+                    <h4 class="country-txt">Jakarta</h4>
+                </div>
+                <h5 class="current-date-txt regular-txt">wed, 07 Aug</h5>
             </div>
-            <div class="location">Srinagar, In</div>
-        </div>
-        
-        <div class="controls">
-            <input type="text" class="location-selector" placeholder="Enter location...">
-            <input type="date" class="date-selector">
-        </div>
-        
-        <div class="main-content">
-            <div class="left-column">
-                <div class="current-weather">
-                    <div class="condition">Sunny</div>
-                    <div class="weather-icon">
-                        <i class="fas fa-sun"></i>
+            <div class="weather-summary-containar">
+                <img src="assets/weather/clouds.svg" alt="" class="weather-summary-img">
+                <div class="weather-summary-info">
+                    <h1 class="temp-txt">29 °C</h1>
+                    <h3 class="condition-txt regular-txt">Clouds</h3>
+
+                </div>
+            </div>
+            <div class="weather-conditions-containar">
+                <div class="condition-item">
+                    <span class="material-symbols-outlined">
+                        water_drop
+                    </span>
+                    <div class="condition-info">
+                        <h5 class="regular-txt">Humidity</h5>
+                        <h5 class="humidity-value-txt">55%</h5>
                     </div>
-                    <div class="temperature">29°C</div>
-                    <div class="weather-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Wind</span>
-                            <span class="stat-value">0 km/h</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Humidity</span>
-                            <span class="stat-value">34%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Precipitation</span>
-                            <span class="stat-value">0%</span>
-                        </div>
+                </div>
+                <div class="condition-item">
+                    <span class="material-symbols-outlined">
+                        air
+                    </span>
+                    <div class="condition-info">
+                        <h5 class="regular-txt">Wind Speed</h5>
+                        <h5 class="wind-value-txt">2 M/s</h5>
                     </div>
                 </div>
             </div>
-            
-            <div class="right-column">
-                <h3>5-Day Forecast</h3>
-                <div class="forecast">
-                    <div class="forecast-day">
-                        <div class="forecast-date">Tue, 12 Jun</div>
-                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
-                        <div class="forecast-temp">29°C</div>
-                    </div>
-                    <div class="forecast-day">
-                        <div class="forecast-date">Wed, 13 Jun</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
-                        <div class="forecast-temp">21°C</div>
-                    </div>
-                    <div class="forecast-day">
-                        <div class="forecast-date">Thu, 14 Jun</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud"></i></div>
-                        <div class="forecast-temp">8°C</div>
-                    </div>
-                    <div class="forecast-day">
-                        <div class="forecast-date">Fri, 15 Jun</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-rain"></i></div>
-                        <div class="forecast-temp">19°C</div>
-                    </div>
-                    <div class="forecast-day">
-                        <div class="forecast-date">Sat, 16 Jun</div>
-                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
-                        <div class="forecast-temp">22°C</div>
-                    </div>
+            <div class="forcast-items-containar">
+                <div class="forcast-item">
+                    <h5 class="forcast-item-date regular-txt">05 Aug</h5>
+                    <img src="assets/weather/thunderstorm.svg" alt="" class="forcast-item-img">
+                    <h5 class="forcast-item-temp">29 °C</h5>
                 </div>
-                <div class="button-container">
-                    <button class="change-location">Change location</button>
-                    <button class="refresh-weather"><i class="fas fa-sync-alt"></i> Refresh</button>
+                <div class="forcast-item">
+                    <h5 class="forcast-item-date regular-txt">05 Aug</h5>
+                    <img src="assets/weather/thunderstorm.svg" alt="" class="forcast-item-img">
+                    <h5 class="forcast-item-temp">29 °C</h5>
+                </div>
+                <div class="forcast-item">
+                    <h5 class="forcast-item-date regular-txt">05 Aug</h5>
+                    <img src="assets/weather/thunderstorm.svg" alt="" class="forcast-item-img">
+                    <h5 class="forcast-item-temp">29 °C</h5>
+                </div>
+                <div class="forcast-item">
+                    <h5 class="forcast-item-date regular-txt">05 Aug</h5>
+                    <img src="assets/weather/thunderstorm.svg" alt="" class="forcast-item-img">
+                    <h5 class="forcast-item-temp">29 °C</h5>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <section class="search-city section-message">
+            <img src="assets/message/search-city.png" alt="">
+            <div>
+                <h1>Search City</h1>
+                <h4 class="regular-txt">
+                    Find out the weather condition of the city
+                </h4>
+            </div>
+        </section>
+
+        <section class="not-found section-message" style="display: none;">
+            <img src="assets/message/not-found.png" alt="">
+            <div>
+                <h1>Search City</h1>
+                <h4 class="regular-txt">
+                    Find out the weather condition of the city
+                </h4>
+            </div>
+        </section>
+    </main>
     <script src="script.js"></script>
 </body>
+
 </html>
