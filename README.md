@@ -1,4 +1,4 @@
-- 👋 Hi, we are  student of National Institute of technology Srinagar @CSE023-27 batch. 
+- 👋 Hi, we are  students of National Institute of technology Srinagar @CSE023-27 batch. 
 - 👀 we are interested in html ,css ,javascript ,nodejs and more
 - 🌱 we are currently studying Internet web and technology under our professor:- Dr. Yaseen
 - Collaboration in between:-
