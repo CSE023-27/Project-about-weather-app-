@@ -1,7 +1,7 @@
-- 👋 Hi, we are  @CSE023-27 
-- 👀 we are interested in html css javascript and nodejs expressjs and more
-- 🌱 we are currently learning iwt
-- Collaboration
+- 👋 Hi, we are  student of National Institute of technology Srinagar @CSE023-27 batch. 
+- 👀 we are interested in html ,css ,javascript ,nodejs and more
+- 🌱 we are currently studying Internet web and technology under our professor:- Dr. Yaseen
+- Collaboration in between:-
 - Mohit Kumawat 2023BCSE017
 - Dikshu 2023BCSE015
 - Sanchit 2023BCSE037
